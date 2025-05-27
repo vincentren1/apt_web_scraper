@@ -11,6 +11,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Get full git history
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,10 +26,24 @@ jobs:
       
       - name: Run scraper
         run: |
+          echo "Starting apartment scraper..."
           python apartment_scraper.py
+          echo "Scraper completed"
       
       - name: Upload data as artifact
         uses: actions/upload-artifact@v3
         with:
           name: apartment-data
           path: data/
+      
+      - name: List git status
+        run: |
+          git status
+      
+      - name: Show git changes
+        run: |
+          git diff --staged
+      
+      - name: Show data files
+        run: |
+          ls -la data/
