@@ -2,7 +2,7 @@ name: Apartment Scraper
 
 on:
   schedule:
-    - cron: '0 */4 * * *'  # Run every 4 hours
+    - cron: '*/10 * * * *'  # Run every 10 minutes
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
