@@ -22,7 +22,7 @@ class ApartmentScraper:
         soup = BeautifulSoup(response.text, 'html.parser')
         data = self.parse_table(soup)
         # Add a test change to force detection
-        data[2][1] = "Starting from $3,756"  # Change the price slightly
+        data[2][1] = "Starting from $3,758"  # Change the price slightly
         return data
 
     def parse_table(self, soup):
@@ -185,7 +185,7 @@ if __name__ == '__main__':
             # Commit and push changes to git
             try:
                 import subprocess
-                subprocess.run(['git', 'add', 'data/apartment_data.txt', 'data/change_log.txt'], check=True)
+                subprocess.run(['git', 'add', '-f', 'data/apartment_data.txt', 'data/change_log.txt'], check=True)
                 subprocess.run(['git', 'commit', '-m', f'Update apartment data at {timestamp}'], check=True)
                 subprocess.run(['git', 'push', 'origin', 'main'], check=True)
                 print("\nData has been updated and changes pushed to git!")
