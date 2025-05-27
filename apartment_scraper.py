@@ -22,7 +22,7 @@ class ApartmentScraper:
         soup = BeautifulSoup(response.text, 'html.parser')
         data = self.parse_table(soup)
         # Add a test change to force detection
-        data[2][1] = "Starting from $3,758"  # Change the price slightly
+        data[2][1] = "Starting from $3,759"  # Change the price slightly
         return data
 
     def parse_table(self, soup):
