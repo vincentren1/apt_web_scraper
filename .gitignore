@@ -9,6 +9,9 @@ develop-eggs/
 dist/
 downloads/
 eggs/
+# Track data files
+!data/
+!data/*
 .eggs/
 lib/
 lib64/

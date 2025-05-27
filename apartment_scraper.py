@@ -181,7 +181,16 @@ if __name__ == '__main__':
                 for row in current_data:
                     if any(cell.strip() for cell in row):
                         log_file.write(" | ".join(row) + "\n")
-            print("\nData has been updated!")
+            
+            # Commit and push changes to git
+            try:
+                import subprocess
+                subprocess.run(['git', 'add', 'data/apartment_data.txt', 'data/change_log.txt'], check=True)
+                subprocess.run(['git', 'commit', '-m', f'Update apartment data at {timestamp}'], check=True)
+                subprocess.run(['git', 'push', 'origin', 'main'], check=True)
+                print("\nData has been updated and changes pushed to git!")
+            except subprocess.CalledProcessError as e:
+                print(f"\nWarning: Failed to push changes to git: {e}")
             ping_me("Apartment availability updated!")
         else:
             print("\nNo changes detected from previous data.")
