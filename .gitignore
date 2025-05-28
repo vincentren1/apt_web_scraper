@@ -20,8 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 # Track data files
-!data/
-!data/*
+data/
 !data/apartment_data.txt
 !data/change_log.txt
 .env
