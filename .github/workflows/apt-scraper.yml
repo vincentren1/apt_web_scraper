@@ -20,12 +20,25 @@ jobs:
           python apartment_scraper.py
           echo "Scraper completed"
           
-          echo "\nData directory contents:"
+          echo "\nCurrent working directory:"
+          pwd
+          
+          echo "\nList all files in current directory:"
+          ls -la
+          
+          echo "\nList all files in data directory:"
           ls -la data/ || echo "No data directory found"
+          
           echo "\nContents of apartment_data.txt:"
           cat data/apartment_data.txt || echo "No apartment data file found"
           echo "\nContents of change_log.txt:"
           cat data/change_log.txt || echo "No change log file found"
+          
+          echo "\nGit status:"
+          git status
+          
+          echo "\nGit diff:"
+          git diff
       
       - name: Save changes
         run: |
