@@ -14,29 +14,11 @@ jobs:
         with:
           fetch-depth: 0  # Get full history
       
-      - name: Show working directory
-        run: |
-          echo "Current working directory:"
-          pwd
-          echo "List of files in current directory:"
-          ls -la
-          echo "List of files in data directory:"
-          ls -la data/ || echo "No data directory found"
-      
       - name: Run scraper
         run: |
           echo "Starting apartment scraper..."
           python apartment_scraper.py
           echo "Scraper completed"
-      
-      - name: Show data files after running
-        run: |
-          echo "Contents of data directory after running:"
-          ls -la data/ || echo "No data directory found"
-          echo "Contents of apartment_data.txt:"
-          cat data/apartment_data.txt || echo "No apartment data file found"
-          echo "Contents of change_log.txt:"
-          cat data/change_log.txt || echo "No change log file found"
       
       - name: Show data files
         run: |
