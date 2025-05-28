@@ -8,11 +8,15 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write  # Required for pushing changes
+      
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Get full history
+          ref: main  # Specify the branch
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
       
       - name: Run scraper and show results
         run: |

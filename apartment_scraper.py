@@ -178,19 +178,30 @@ if __name__ == '__main__':
         # Save changes to git
         try:
             import subprocess
+            import os
             
-            # Configure git if not already configured
+            # Configure git with GitHub token
             subprocess.run(['git', 'config', '--global', 'user.name', 'github-actions[bot]'], check=True)
             subprocess.run(['git', 'config', '--global', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True)
+            
+            # Set up remote with token
+            token = os.environ.get('GITHUB_TOKEN')
+            if token:
+                remote_url = f'https://{token}@github.com/vincentren1/apt_web_scraper.git'
+                subprocess.run(['git', 'remote', 'set-url', 'origin', remote_url], check=True)
             
             # Add and commit changes
             subprocess.run(['git', 'add', 'data/'], check=True)
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             subprocess.run(['git', 'commit', '-m', f'Update apartment data at {timestamp}'], check=True)
+            
+            # Push changes
             subprocess.run(['git', 'push', 'origin', 'main'], check=True)
             print("\nData files updated and pushed to git!")
         except subprocess.CalledProcessError as e:
             print(f"\nWarning: Failed to push changes to git: {e}")
+            print(f"Git status: {subprocess.run(['git', 'status'], capture_output=True, text=True).stdout}")
+            print(f"Git remote: {subprocess.run(['git', 'remote', '-v'], capture_output=True, text=True).stdout}")
             
         # Check for changes
         if previous_data is None:
