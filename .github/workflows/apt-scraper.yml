@@ -14,32 +14,24 @@ jobs:
         with:
           fetch-depth: 0  # Get full history
       
-      - name: Run scraper
+      - name: Run scraper and show results
         run: |
           echo "Starting apartment scraper..."
           python apartment_scraper.py
           echo "Scraper completed"
-      
-      - name: Show data files
-        run: |
-          echo "Contents of data directory:"
+          
+          echo "\nData directory contents:"
           ls -la data/ || echo "No data directory found"
-          echo "Contents of apartment_data.txt:"
+          echo "\nContents of apartment_data.txt:"
           cat data/apartment_data.txt || echo "No apartment data file found"
-          echo "Contents of change_log.txt:"
+          echo "\nContents of change_log.txt:"
           cat data/change_log.txt || echo "No change log file found"
       
-      - name: Configure git
+      - name: Save changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      
-      - name: Add and commit changes
-        run: |
           git add .
           git status
           git commit -m "Update apartment data" || echo "No changes to commit"
-      
-      - name: Push changes
-        run: |
           git push origin main || echo "No changes to push"
