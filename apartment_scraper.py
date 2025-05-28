@@ -124,9 +124,8 @@ class ApartmentScraper:
 
     def save_to_file(self, data, filename='apartment_data.txt'):
         """Save data to text file."""
-        # Get absolute path to repository root
-        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        save_directory = os.path.join(repo_root, 'data')
+        # Get the current working directory (where the script is running)
+        save_directory = 'data'
         os.makedirs(save_directory, exist_ok=True)
 
         file_path = os.path.join(save_directory, filename)
@@ -157,9 +156,7 @@ if __name__ == '__main__':
         # Try to load previous data if it exists
         previous_data = None
         try:
-            # Get absolute path to repository root
-            repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            file_path = os.path.join(repo_root, 'data', 'apartment_data.txt')
+            file_path = os.path.join('data', 'apartment_data.txt')
             with open(file_path, 'r') as file:
                 lines = file.readlines()
                 # Skip the timestamp line at the end
@@ -180,9 +177,7 @@ if __name__ == '__main__':
             print("\nThis is the first run. No previous data to compare against.")
         elif scraper.has_updated(previous_data, current_data):
             # Save changes to log
-            # Get absolute path to repository root
-            repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            log_path = os.path.join(repo_root, 'data', 'change_log.txt')
+            log_path = os.path.join('data', 'change_log.txt')
             with open(log_path, 'a') as log_file:
                 log_file.write(f"\n=== Changes detected at {timestamp} ===\n")
                 for row in current_data:
