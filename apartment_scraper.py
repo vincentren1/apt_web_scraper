@@ -175,12 +175,28 @@ if __name__ == '__main__':
         scraper.print_table(current_data)
         scraper.save_to_file(current_data)
         
+        # Save changes to git
+        try:
+            import subprocess
+            
+            # Configure git if not already configured
+            subprocess.run(['git', 'config', '--global', 'user.name', 'github-actions[bot]'], check=True)
+            subprocess.run(['git', 'config', '--global', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True)
+            
+            # Add and commit changes
+            subprocess.run(['git', 'add', 'data/'], check=True)
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            subprocess.run(['git', 'commit', '-m', f'Update apartment data at {timestamp}'], check=True)
+            subprocess.run(['git', 'push', 'origin', 'main'], check=True)
+            print("\nData files updated and pushed to git!")
+        except subprocess.CalledProcessError as e:
+            print(f"\nWarning: Failed to push changes to git: {e}")
+            
         # Check for changes
         if previous_data is None:
             print("\nThis is the first run. No previous data to compare against.")
         elif scraper.has_updated(previous_data, current_data):
             # Save changes to log
-            # Get the absolute path to the repository root
             repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             log_path = os.path.join(repo_root, 'data', 'change_log.txt')
             with open(log_path, 'a') as log_file:

@@ -40,11 +40,22 @@ jobs:
           echo "\nGit diff:"
           git diff
       
-      - name: Save changes
+      - name: Run scraper and show results
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git status
-          git commit -m "Update apartment data" || echo "No changes to commit"
-          git push origin main || echo "No changes to push"
+          echo "Starting apartment scraper..."
+          python apartment_scraper.py
+          echo "Scraper completed"
+          
+          echo "\nCurrent working directory:"
+          pwd
+          
+          echo "\nList all files in current directory:"
+          ls -la
+          
+          echo "\nList all files in data directory:"
+          ls -la data/ || echo "No data directory found"
+          
+          echo "\nContents of apartment_data.txt:"
+          cat data/apartment_data.txt || echo "No apartment data file found"
+          echo "\nContents of change_log.txt:"
+          cat data/change_log.txt || echo "No change log file found"
